@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="projectDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Batch">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="batch" Type="varchar" MaxLength="50" />
+    <Property Name="year" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="course" Type="varchar" MaxLength="50" />
+    <Property Name="duration" Type="int" />
+  </EntityType>
+  <EntityType Name="Reistration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstname" Type="varchar" MaxLength="50" />
+    <Property Name="lastname" Type="varchar" MaxLength="50" />
+    <Property Name="nic" Type="varchar" MaxLength="50" />
+    <Property Name="course_id" Type="int" />
+    <Property Name="batch_id" Type="int" />
+    <Property Name="telno" Type="int" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstname" Type="varchar" MaxLength="50" />
+    <Property Name="lastname" Type="varchar" MaxLength="50" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_Reistration_Batch">
+    <End Role="Batch" Type="Self.Batch" Multiplicity="0..1" />
+    <End Role="Reistration" Type="Self.Reistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Batch">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Reistration">
+        <PropertyRef Name="batch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reistration_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+    <End Role="Reistration" Type="Self.Reistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Reistration">
+        <PropertyRef Name="course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reistration_Reistration">
+    <End Role="Reistration" Type="Self.Reistration" Multiplicity="1" />
+    <End Role="Reistration1" Type="Self.Reistration" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Reistration">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Reistration1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="projectDbModelStoreContainer">
+    <EntitySet Name="Batch" EntityType="Self.Batch" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reistration" EntityType="Self.Reistration" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Reistration_Batch" Association="Self.FK_Reistration_Batch">
+      <End Role="Batch" EntitySet="Batch" />
+      <End Role="Reistration" EntitySet="Reistration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reistration_Course" Association="Self.FK_Reistration_Course">
+      <End Role="Course" EntitySet="Course" />
+      <End Role="Reistration" EntitySet="Reistration" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reistration_Reistration" Association="Self.FK_Reistration_Reistration">
+      <End Role="Reistration" EntitySet="Reistration" />
+      <End Role="Reistration1" EntitySet="Reistration" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

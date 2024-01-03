@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="projectDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Batch">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="batch1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Reistrations" Relationship="Self.FK_Reistration_Batch" FromRole="Batch" ToRole="Reistration" />
+  </EntityType>
+  <EntityType Name="Course">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="course1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="duration" Type="Int32" />
+    <NavigationProperty Name="Reistrations" Relationship="Self.FK_Reistration_Course" FromRole="Course" ToRole="Reistration" />
+  </EntityType>
+  <EntityType Name="Reistration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="nic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="course_id" Type="Int32" />
+    <Property Name="batch_id" Type="Int32" />
+    <Property Name="telno" Type="Int32" />
+    <NavigationProperty Name="Batch" Relationship="Self.FK_Reistration_Batch" FromRole="Reistration" ToRole="Batch" />
+    <NavigationProperty Name="Course" Relationship="Self.FK_Reistration_Course" FromRole="Reistration" ToRole="Course" />
+    <NavigationProperty Name="Reistration1" Relationship="Self.FK_Reistration_Reistration" FromRole="Reistration" ToRole="Reistration1" />
+    <NavigationProperty Name="Reistration2" Relationship="Self.FK_Reistration_Reistration" FromRole="Reistration1" ToRole="Reistration" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Reistration_Batch">
+    <End Role="Batch" Type="Self.Batch" Multiplicity="0..1" />
+    <End Role="Reistration" Type="Self.Reistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Batch">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Reistration">
+        <PropertyRef Name="batch_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reistration_Course">
+    <End Role="Course" Type="Self.Course" Multiplicity="0..1" />
+    <End Role="Reistration" Type="Self.Reistration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Course">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Reistration">
+        <PropertyRef Name="course_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Reistration_Reistration">
+    <End Role="Reistration" Type="Self.Reistration" Multiplicity="1" />
+    <End Role="Reistration1" Type="Self.Reistration" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Reistration">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Reistration1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="projectDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Batches" EntityType="Self.Batch" />
+    <EntitySet Name="Courses" EntityType="Self.Course" />
+    <EntitySet Name="Reistrations" EntityType="Self.Reistration" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK_Reistration_Batch" Association="Self.FK_Reistration_Batch">
+      <End Role="Batch" EntitySet="Batches" />
+      <End Role="Reistration" EntitySet="Reistrations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reistration_Course" Association="Self.FK_Reistration_Course">
+      <End Role="Course" EntitySet="Courses" />
+      <End Role="Reistration" EntitySet="Reistrations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Reistration_Reistration" Association="Self.FK_Reistration_Reistration">
+      <End Role="Reistration" EntitySet="Reistrations" />
+      <End Role="Reistration1" EntitySet="Reistrations" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
